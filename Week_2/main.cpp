@@ -9,9 +9,7 @@
 
 // You need to include some header(s) here!
 
-
 // You need to define your main() function here!
-
 
 // Notes:
 
@@ -27,4 +25,12 @@
 
 // Also note, the autograder does not care about letter case, punctuation,
 // or spacing! But it does care about spelling and the order of words!
-
+#include <iostream>
+int main()
+{
+    std::cout << "Hello, world!"
+              << "\n";
+    std::cout << "Greetings from Illinois!"
+              << "\n";
+    return 0;
+}
