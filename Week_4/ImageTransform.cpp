@@ -69,7 +69,19 @@ PNG grayscale(PNG image)
  */
 PNG createSpotlight(PNG image, int centerX, int centerY)
 {
+  for (unsigned x = 0; x < image.width(); x++)
+  {
+    for (unsigned y = 0; y < image.height(); y++)
+    {
+      HSLAPixel &pixel = image.getPixel(x, y);
 
+      int dx = centerX - x;
+      int dy = centerY - y;
+      double dist = sqrt(dx * dx + dy * dy);
+
+      pixel.l = pixel.l*(1.0-std::min(0.005*dist, 0.8));
+    }
+  }
   return image;
 }
 
@@ -95,18 +107,20 @@ PNG illinify(PNG image)
       // which means you're changing the image directly. No need to `set`
       // the pixel since you're directly changing the memory of the image.
 
-      int IlliniOrange = 11;
-      int IlliniBlue = 216;
+      double factor = 3.1416/180. ;
+      double IlliniOrange = cos( 11*factor );
+      double IlliniBlue = cos( 216*factor );
 
-      int cutoffH = (IlliniBlue - IlliniOrange) / 2;
+      double dOrg = abs(cos(pixel.h*factor)-IlliniOrange);
+      double dBl  = abs(cos(pixel.h*factor)-IlliniBlue);
 
-      if (pixel.h <= cutoffH)
+      if (dOrg <= dBl)
       {
-        pixel.h = IlliniOrange;
+        pixel.h = 11;
       }
       else
       {
-        pixel.h = IlliniBlue;
+        pixel.h = 216;
       }
     }
   }
